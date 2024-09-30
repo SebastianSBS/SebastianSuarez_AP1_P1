@@ -2,10 +2,10 @@
 
 namespace SebastianSuarez_AP1_P1.Models
 {
-    public class Prestamo
+    public class Prestamos
     {
         [Key]
-        public int Id { get; set; }
+        public int PrestamoId { get; set; }
         [Required(ErrorMessage = "El campo nombre es de caracter obligatorio..")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "El campo concepto es de caracter obligatorio..")]

@@ -8,9 +8,8 @@ namespace SebastianSuarez_AP1_P1.DAL
        public Contexto(DbContextOptions<Contexto> options)
         : base(options) { }
 
-        public DbSet<Prestamo> Registro { get; set; }
+        public DbSet<Prestamos> Prestamo { get; set; }
     }
-
 }
 
 

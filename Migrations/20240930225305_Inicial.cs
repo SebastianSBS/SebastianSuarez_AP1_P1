@@ -11,10 +11,10 @@ namespace SebastianSuarez_AP1_P1.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Registro",
+                name: "Prestamo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    PrestamoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombres = table.Column<string>(type: "TEXT", nullable: false),
                     Concepto = table.Column<string>(type: "TEXT", nullable: false),
@@ -22,7 +22,7 @@ namespace SebastianSuarez_AP1_P1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Registro", x => x.Id);
+                    table.PrimaryKey("PK_Prestamo", x => x.PrestamoId);
                 });
         }
 
@@ -30,7 +30,7 @@ namespace SebastianSuarez_AP1_P1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Registro");
+                name: "Prestamo");
         }
     }
 }

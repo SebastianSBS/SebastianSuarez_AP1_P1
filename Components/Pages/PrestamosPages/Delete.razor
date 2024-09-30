@@ -1,5 +1,92 @@
-﻿<h3>Delete</h3>
+﻿@page "/PrestamosPages/Delete"
+@page "/PrestamosPages/Delete/{Id:int}"
+@inject PrestamosServices prestamoServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar prestamo</PageTitle>
+
+@if (prestamos != null)
+{
+    <EditForm Model="prestamos" OnValidSubmit="Eliminar">
+        <DataAnnotationsValidator />
+        <div class="card">
+
+            <div class="card-header">
+                <h1>Eliminar Prestamo</h1>
+            </div>
+
+            <div class="card-body">
+                <h3 class="text-danger text-center">¿Estás seguro de que quieres eliminar este prestamo?</h3>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>ID:</label>
+                        <InputNumber @bind-Value="prestamos.PrestamoId" class="form-control" Disabled="true"></InputNumber>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Nombre:</label>
+                        <InputText @bind-Value="prestamos.Nombres" class="form-control" Disabled="true"></InputText>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>ID:</label>
+                        <InputText @bind-Value="prestamos.Concepto" class="form-control" Disabled="true"></InputText>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>ID:</label>
+                        <InputNumber @bind-Value="prestamos.Monto" class="form-control" Disabled="true"></InputNumber>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-danger">Eliminar <i class="bi bi-trash" /></button>
+                <a type="button" href="Prestamos/Index" class="btn btn-outline-primary"><span class="bi bi-arrow-left mt-3"></span> Volver</a>
+            </div>
+        </div>
+    </EditForm>
+}
+else
+{
+    <p>Prestamo no encontrado.</p>
+}
+
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public Prestamos prestamos { get; set; } = new Prestamos();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            prestamos = await prestamoServices.Buscar(Id);
+        }
+    }
+
+    public async Task Eliminar()
+    {
+        if (Id == 0 || prestamos == null)
+        {
+            return;
+        }
+
+        if (await prestamoServices.Eliminar(Id))
+        {
+            Volver();
+        }
+    }
+
+    public void Volver()
+    {
+        navigationManager.NavigateTo("Prestamos/Index");
+    }
 
 }
+
+

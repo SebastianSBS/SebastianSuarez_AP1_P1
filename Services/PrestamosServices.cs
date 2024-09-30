@@ -6,11 +6,11 @@ using SebastianSuarez_AP1_P1.Models;
 
 namespace SebastianSuarez_AP1_P1.Services;
 
-public class RegistroServices
+public class PrestamosServices
 {
     private readonly Contexto _contexto;
 
-    public RegistroServices(Contexto context)
+    public PrestamosServices(Contexto context)
     {
         _contexto = context;
 

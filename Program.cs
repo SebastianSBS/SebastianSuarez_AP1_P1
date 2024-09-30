@@ -1,10 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using SebastianSuarez_AP1_P1.Components;
+using SebastianSuarez_AP1_P1.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+var ConStr = builder.Configuration.GetConnectionString("ConStr");
+
+builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
 
 var app = builder.Build();
 

@@ -1,0 +1,90 @@
+﻿@page "/PrestamosPages/Create"
+@page "/PrestamosPages/Create/{Id:int}"
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+@inject PrestamosServices prestamoServices
+
+<EditForm Model="prestamo" OnValidSubmit="Guardar" FormName="PrestamosForm">
+    <DataAnnotationsValidator />
+    <div class="card">
+
+        <div class="card-header">
+            <h1>Registro</h1>
+        </div>
+
+        <div class="card-body">
+            <label>ID:</label>
+            <div class="input-group">
+                <InputNumber @bind-Value="prestamo.PrestamoId" class="form-control"></InputNumber>
+                <button type="button" class="btn btn-outline-primary oi oi-magnifying-glass" @onclick="Buscar"></button>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Nombres:</label>
+                    <InputText @bind-Value="prestamo.Nombres" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => prestamo.Nombres)" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Concepto:</label>
+                    <InputText @bind-Value="prestamo.Concepto" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => prestamo.Concepto)" />
+                </div>
+            </div>
+              <div class="row">
+                <div class="col-md-6">
+                    <label>Monto:</label>
+                    <InputNumber @bind-Value="prestamo.Monto" class="form-control"></InputNumber>
+                    <ValidationMessage For="@(() => prestamo.Monto)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
+            <button type="submit" class="btn btn-outline-success">Guardar <i class="bi bi-floppy mt-3" /></button>
+            <a class="btn btn-outline-primary" href="Prestamos/Index">
+                <span class="bi bi-arrow-left mt-3"></span> Volver
+            </a>
+        </div
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    public Prestamos prestamo { get; set; } = new Prestamos();
+    private bool Existe = false;
+
+    public async Task Buscar()
+    {
+        var prestamoEncontrado = await prestamoServices.Buscar(prestamo.PrestamoId);
+
+        if (prestamoEncontrado != null)
+        {
+            prestamo = prestamoEncontrado;
+        }
+    }
+
+    public void Nuevo()
+    {
+        prestamo = new Prestamos();
+        Existe = false;
+    }
+
+    public async Task Guardar()
+    {
+        var guardo = await prestamoServices.Guardar(this.prestamo);
+    Nuevo();
+    }
+
+    public async Task Eliminar()
+    {
+        var eliminado = await prestamoServices.Eliminar(prestamo.PrestamoId);
+
+        Nuevo();
+    }
+}
+

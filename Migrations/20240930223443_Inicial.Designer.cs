@@ -10,7 +10,7 @@ using SebastianSuarez_AP1_P1.DAL;
 namespace SebastianSuarez_AP1_P1.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240930194857_Inicial")]
+    [Migration("20240930223443_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -19,13 +19,20 @@ namespace SebastianSuarez_AP1_P1.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Registro", b =>
+            modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Prestamo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Monto")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombres")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

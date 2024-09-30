@@ -16,7 +16,9 @@ namespace SebastianSuarez_AP1_P1.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false)
+                    Nombres = table.Column<string>(type: "TEXT", nullable: false),
+                    Concepto = table.Column<string>(type: "TEXT", nullable: false),
+                    Monto = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

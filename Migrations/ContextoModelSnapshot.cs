@@ -16,13 +16,20 @@ namespace SebastianSuarez_AP1_P1.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Registro", b =>
+            modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Prestamo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Monto")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombres")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

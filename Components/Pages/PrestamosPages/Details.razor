@@ -1,5 +1,70 @@
-﻿<h3>Details</h3>
+﻿@page "/PrestamosPages/Detail"
+@page "/PrestamosPages/Detail/{Id:int}"
+@inject PrestamosServices prestamoServices
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Detalles del prestamo</PageTitle>
+
+@if (prestamo != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <h1>Detalles del prestamo</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>PrestamoID:</label>
+                    <InputNumber @bind-Value="prestamo.PrestamoId" class="form-control" Disabled="true"></InputNumber>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Nombre:</label>
+                    <InputText @bind-Value="prestamo.Nombres" class="form-control" Disabled="true"></InputText>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Monto:</label>
+                    <InputNumber @bind-Value="prestamo.Monto" class="form-control" Disabled="true"></InputNumber>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Concepto:</label>
+                    <InputText @bind-Value="prestamo.Concepto" class="form-control" Disabled="true"></InputText>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-center">
+            <a type="button" href="Prestamos/Index" class="btn btn-outline-primary"><span class="bi bi-arrow-left"></span> Volver</a>
+        </div>
+    </div>
+}
+else
+{
+    <p>Prestamo no encontrado.</p>
+}
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public Prestamos prestamo { get; set; } = new Prestamos();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            prestamo = await prestamoServices.Buscar(Id);
+        }
+    }
+
+    public void Volver()
+    {
+        navigationManager.NavigateTo("Prestamos/Index");
+    }
 
 }
+

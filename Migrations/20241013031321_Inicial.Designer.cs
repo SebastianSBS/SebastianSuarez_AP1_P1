@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SebastianSuarez_AP1_P1.DAL;
 
@@ -10,9 +11,11 @@ using SebastianSuarez_AP1_P1.DAL;
 namespace SebastianSuarez_AP1_P1.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20241013031321_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -62,38 +65,6 @@ namespace SebastianSuarez_AP1_P1.Migrations
                     b.ToTable("CobrosDetalle");
                 });
 
-            modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Deudor", b =>
-                {
-                    b.Property<int>("DeudorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("DeudorName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("DeudorId");
-
-                    b.ToTable("Deudor");
-
-                    b.HasData(
-                        new
-                        {
-                            DeudorId = 1,
-                            DeudorName = "Pedro"
-                        },
-                        new
-                        {
-                            DeudorId = 2,
-                            DeudorName = "Angel"
-                        },
-                        new
-                        {
-                            DeudorId = 3,
-                            DeudorName = "Diego"
-                        });
-                });
-
             modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.Prestamos", b =>
                 {
                     b.Property<int>("PrestamoId")
@@ -104,23 +75,35 @@ namespace SebastianSuarez_AP1_P1.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Concepto")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DeudorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Deudor")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("Monto")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("PrestamoId");
 
                     b.ToTable("Prestamo");
+
+                    b.HasData(
+                        new
+                        {
+                            PrestamoId = 1,
+                            Deudor = "Pedro"
+                        },
+                        new
+                        {
+                            PrestamoId = 2,
+                            Deudor = "Angel"
+                        },
+                        new
+                        {
+                            PrestamoId = 3,
+                            Deudor = "Diego"
+                        });
                 });
 
             modelBuilder.Entity("SebastianSuarez_AP1_P1.Models.CobrosDetalle", b =>

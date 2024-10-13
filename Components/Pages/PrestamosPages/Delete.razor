@@ -39,14 +39,20 @@
                         <label>ID:</label>
                         <InputNumber @bind-Value="prestamos.Monto" class="form-control" Disabled="true"></InputNumber>
                     </div>
-                </div>
+
+                    <div class="col-md-6">
+                        <label>Deudor:</label>
+                        <InputText @bind-Value="Deudor.DeudorName" class="form-control" Disabled="true"></InputText>
+                    </div>
             </div>
 
             <div class="card-footer d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-danger">Eliminar <i class="bi bi-trash" /></button>
                 <a type="button" href="Prestamos/Index" class="btn btn-outline-primary"><span class="bi bi-arrow-left mt-3"></span> Volver</a>
             </div>
-        </div>
+            </div>
+            </div>
+
     </EditForm>
 }
 else
@@ -58,6 +64,7 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
+    public Deudor Deudor { get; set; } = new Deudor();
 
     public Prestamos prestamos { get; set; } = new Prestamos();
 
@@ -66,7 +73,12 @@ else
         if (Id != 0)
         {
             prestamos = await prestamoServices.Buscar(Id);
+            if (prestamos != null)
+            {
+                Deudor = await prestamoServices.ObtenerDeudorPorId(prestamos.DeudorId); 
+            }
         }
+
     }
 
     public async Task Eliminar()

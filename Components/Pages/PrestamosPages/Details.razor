@@ -34,6 +34,11 @@
                     <label>Concepto:</label>
                     <InputText @bind-Value="prestamo.Concepto" class="form-control" Disabled="true"></InputText>
                 </div>
+
+                <div class="col-md-6">
+                    <label>Deudor:</label>
+                    <InputText @bind-Value="deudor.DeudorName" class="form-control" Disabled="true"></InputText>
+                </div>
             </div>
         </div>
 
@@ -50,6 +55,7 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
+    public Deudor deudor { get; set; } = new Deudor();
 
     public Prestamos prestamo { get; set; } = new Prestamos();
 
@@ -58,6 +64,10 @@ else
         if (Id != 0)
         {
             prestamo = await prestamoServices.Buscar(Id);
+            if (prestamo != null)
+            {
+                deudor = await prestamoServices.ObtenerDeudorPorId(prestamo.DeudorId);
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SebastianSuarez_AP1_P1.Models
 {
@@ -6,11 +7,22 @@ namespace SebastianSuarez_AP1_P1.Models
     {
         [Key]
         public int PrestamoId { get; set; }
-        [Required(ErrorMessage = "El campo nombre es de caracter obligatorio..")]
+        [Required(ErrorMessage = "El campo deudor es de caracter obligatorio..")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "El campo concepto es de caracter obligatorio..")]
-        public string Concepto { get; set; }
+        public string? Concepto { get; set; }
         [Required(ErrorMessage = "El campo monto es de caracter obligatorio..")]
-        public int Monto { get; set; }
+        public int? Monto { get; set; }
+        public int? Balance { get; set; }
+        [ForeignKey("DeudorId")]
+        public int DeudorId { get; set; }
     }
+
+    public class Deudor
+    {
+        [Key]
+        public int DeudorId { get; set; }
+        public string DeudorName { get; set; }
+    }
+
 }

@@ -32,6 +32,18 @@
                     <ValidationMessage For="@(() => prestamos.Concepto)" />
                 </div>
 
+                <div class="mb-3">
+                <label for="Deudor" class="form-label">Deudor:</label>
+                <InputSelect @bind-Value="prestamos.DeudorId" class="form-control" @onchange="HandleDeudorChange">
+                    <option value="" disabled="@isDisabled">Seleccione el deudor</option>
+                    @foreach (var deudor in deudores)
+                    {
+                        <option value="@deudor.DeudorId">@deudor.DeudorName</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => prestamos.DeudorId)" />
+            </div>
+
                 <div class="col-md-6">
                     <label>Monto:</label>
                     <InputNumber @bind-Value="prestamos.Monto" class="form-control"></InputNumber>
@@ -55,10 +67,14 @@
     public int? Id { get; set; }
 
     public Prestamos prestamos { get; set; } = new Prestamos();
+    public Deudor deudor { get; set; } = new Deudor();
     private bool Existe = false;
+    private List<Deudor> deudores = new();
+    private bool isDisabled { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
+        deudores = await prestamoServices.ListarDeudores();
         if (Id.HasValue)
         {
             prestamos.PrestamoId = Id.Value;
@@ -93,5 +109,13 @@
     {
         var eliminado = await prestamoServices.Eliminar(prestamos.PrestamoId);
         Nuevo();
+    }
+    
+    private void HandleDeudorChange(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(deudor.DeudorName))
+        {
+            isDisabled = true;
+        }
     }
 }

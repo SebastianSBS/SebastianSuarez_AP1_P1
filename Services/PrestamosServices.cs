@@ -60,7 +60,21 @@ public class PrestamosServices
     {
         return await _contexto.Prestamo.AsNoTracking().Where(criterio).ToListAsync();
     }
+    public async Task<List<Deudor>> ListarDeudores()
+    {
+        return await _contexto.Deudor.AsNoTracking().ToListAsync();
+    }
 
+    public async Task<List<Deudor>> ListarPorNombre(Expression<Func<Deudor, bool>> criterio)
+    {
+        return await _contexto.Deudor.AsNoTracking().Where(criterio).ToListAsync();
+    }
+
+    public async Task<Deudor> ObtenerDeudorPorId(int deudorId)
+    {
+        return await _contexto.Deudor
+            .FirstOrDefaultAsync(d => d.DeudorId == deudorId);
+    }
 }
 
 

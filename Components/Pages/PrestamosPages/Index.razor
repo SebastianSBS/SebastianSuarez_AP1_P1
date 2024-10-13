@@ -19,6 +19,8 @@
                     <option value="Nombres">Nombres</option>
                     <option value="Concepto">Concepto</option>
                     <option value="Monto">Monto</option>
+                    <option value="Deudor">Deudor</option>
+
                 </select>
             </div>
             <div class="col-md-6">
@@ -43,6 +45,7 @@
                 <th>Nombre</th>
                 <th>Concepto</th>
                 <th>Monto</th>
+                <th>Deudor</th>
                 <th>Ver</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
@@ -56,6 +59,7 @@
                     <td>@prestamos.Nombres</td>
                     <td>@prestamos.Concepto</td>
                     <td>@prestamos.Monto</td>
+                    <td>@ObtenerNombreDeudor(prestamos.DeudorId)</td>
                     <td>
                         <a class="btn btn-outline-primary" href="/PrestamosPages/Detail/@prestamos.PrestamoId">
                             <span class="bi bi-eye"></span>
@@ -80,7 +84,7 @@
 @code {
 
     public Prestamos prestamos = new Prestamos();
-
+    public List<Deudor> ListaDeudores = new List<Deudor>();
     public List<Prestamos> ListaPrestamos = new List<Prestamos>();
 
     private string filtro = "Id";
@@ -88,6 +92,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        ListaDeudores = await prestamoServices.ListarPorNombre(p => true);
         ListaPrestamos = await prestamoServices.Listar(p => true);
     }
 
@@ -113,6 +118,12 @@
         {
             ListaPrestamos = await prestamoServices.Listar(p => true);
         }
+    }
+
+    private string ObtenerNombreDeudor(int deudorId)
+    {
+        var deudor = ListaDeudores.FirstOrDefault(d => d.DeudorId == deudorId);
+        return deudor?.DeudorName ?? "No encontrado"; 
     }
 
 }

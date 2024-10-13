@@ -18,12 +18,25 @@
                 <InputNumber @bind-Value="prestamo.PrestamoId" class="form-control"></InputNumber>
                 <button type="button" class="btn btn-outline-primary oi oi-magnifying-glass" @onclick="Buscar"></button>
             </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <label>Nombres:</label>
                     <InputText @bind-Value="prestamo.Nombres" class="form-control"></InputText>
                     <ValidationMessage For="@(() => prestamo.Nombres)" />
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="Deudor" class="form-label">Deudor:</label>
+                <InputSelect @bind-Value="prestamo.DeudorId" class="form-control" @onchange="HandleDeudorChange">
+                    <option value="" disabled="@isDisabled">Seleccione el deudor</option>
+                    @foreach (var deudor in deudores)
+                    {
+                        <option value="@deudor.DeudorId">@deudor.DeudorName</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => prestamo.DeudorId)" />
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -32,6 +45,7 @@
                     <ValidationMessage For="@(() => prestamo.Concepto)" />
                 </div>
             </div>
+
               <div class="row">
                 <div class="col-md-6">
                     <label>Monto:</label>
@@ -40,6 +54,9 @@
                 </div>
             </div>
         </div>
+            </div>
+
+
 
         <div class="card-footer d-flex justify-content-center">
             <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
@@ -48,7 +65,6 @@
                 <span class="bi bi-arrow-left mt-3"></span> Volver
             </a>
         </div
-    </div>
 </EditForm>
 
 @code {
@@ -57,6 +73,15 @@
 
     public Prestamos prestamo { get; set; } = new Prestamos();
     private bool Existe = false;
+    public Deudor deudor { get; set; } = new Deudor();
+    private bool isDisabled { get; set; } = false;
+
+    private List<Deudor> deudores = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        deudores = await prestamoServices.ListarDeudores();
+    }
 
     public async Task Buscar()
     {
@@ -85,6 +110,14 @@
         var eliminado = await prestamoServices.Eliminar(prestamo.PrestamoId);
 
         Nuevo();
+    }
+
+        private void HandleDeudorChange(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(deudor.DeudorName))
+        {
+            isDisabled = true;
+        }
     }
 }
 
